@@ -14,5 +14,5 @@ const Pokemon = ({pokemon}) =>{
     </div>
 )
 }
-
+//asdf
 export default Pokemon;
