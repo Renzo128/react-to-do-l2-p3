@@ -19,6 +19,7 @@ import { getPokemon, getPokemonData } from "./util/pokemons";
 // }
 // //asdf
 // export default Pokemon;
+const initialUrl = "https://pokeapi.co/api/v2/pokemon";
 
 const Pokemon = () =>{
   const [pokemons, setPokemons] = useState([]);

@@ -2,7 +2,7 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Routes, Route, Link } from "react-router-dom";
-import Pokemon from "./components/pokemon";
+import Pokemon from "./components/Pokemon";
 import Pagination from "./components/pagination";
 const App = () => {
 
