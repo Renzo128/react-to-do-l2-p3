@@ -1,23 +1,21 @@
 import React from "react";
-// import "./Styles/SinglePokemon.css";
 
-function SinglePokemon({ pokemon, openModal }) {
+function SinglePokemon({ pokemon }) { // display voor iedere pokemon card
   return (
     <>
-      <section
+      <div
         key={pokemon.id}
         className="SinglePokeContainer"
 
       >
-        <p>#0{pokemon.id}</p>
+        <p>#{pokemon.id}</p>
         <img
-          onClick={openModal}
           data-id={pokemon.id}
           src={pokemon.sprites.other["official-artwork"].front_default}
           alt=""
         />
         <p>{pokemon.name}</p>
-      </section>
+      </div>
     </>
   );
 }

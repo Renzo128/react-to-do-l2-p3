@@ -1,27 +1,9 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
-import SinglePokemon from "./SinglePokemon";
-// import "./Styles/Pokelist.css";
-import { getPokemon, getPokemonData } from "./util/pokemons";
-
-// const Pokemon = ({pokemon}) =>{
-//     console.log(pokemon)
-//   const [pokemonImage, setPokemonImage] = useState([]);
-
-
-
-//     return (
-//     <div>
-//         {pokemon.map((p) =>
-//         <div key={p.url}>{p.name}</div>)}
-//     </div>
-// )
-// }
-// //asdf
-// export default Pokemon;
+import SinglePokemon from "../SinglePokemon/SinglePokemon";
+import { getPokemon, getPokemonData } from "../functies/pokemons";
 const initialUrl = "https://pokeapi.co/api/v2/pokemon";
 
-const Pokemon = () =>{
+const Pokemon = () => {
   const [pokemons, setPokemons] = useState([]);
   const [nextUrl, setNextUrl] = useState("");
   const [prevUrl, setPrevUrl] = useState("");
@@ -34,40 +16,36 @@ const Pokemon = () =>{
   let tempId = "";
 
 
-
-
-
-  //Functions
-
-  const fetchSinglePoke = async (value) => {
+  const fetchSinglePoke = async (value) => {  // data van pokemon ophalen die gezocht wordt in zoek balk
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${value}`);
     const data = await response.json();
+    console.log(data)
+
     setSinglePoke(data);
 
     return data;
   };
 
-  const fetchSpecieData = async (value) => {
+  const fetchSpecieData = async (value) => {  //haal meer informatie op over dezelfde pokemon van fetchSinglePoke
     const response = await fetch(
       `https://pokeapi.co/api/v2/pokemon-species/${value}`
     );
     const data = await response.json();
+    console.log(data)
+
     setSinglePokeSpecies(data);
 
     return data;
   };
 
-  const fetchEvoData = async (url) => {
+  const fetchEvoData = async (url) => { // haal evaluatie informatie op van gezochte pokemon
     const response = await fetch(url);
     const data = await response.json();
     setSinglePokeEvoChain(data);
     return data;
   };
 
-
-
-  /* handle Submit  */
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => { // het opzoek verzoek ophalen en informatie ervoor opzoeken
     e.preventDefault();
     if (!input) return;
 
@@ -77,7 +55,6 @@ const Pokemon = () =>{
         fetchSinglePoke(input),
         fetchSpecieData(input),
       ]);
-      //fetch evo Data with the URL that is is sitting in SpecieData
       const [singlePokeEvoChain] = await Promise.all([
         fetchEvoData(specieData.evolution_chain.url),
       ]);
@@ -87,9 +64,8 @@ const Pokemon = () =>{
     }
   };
 
-  /* End handle Sumbit */
 
-  useEffect(() => {
+  useEffect(() => { // op pagina inladen de link voor volgende en vorige klaar zetten
     async function fetchData() {
       let response = await getPokemon(initialUrl);
       setNextUrl(response.next);
@@ -101,7 +77,7 @@ const Pokemon = () =>{
     fetchData();
   }, []);
 
-  const loadingPokemon = async (data) => {
+  const loadingPokemon = async (data) => {  // alle pokemon data ophalen
     let _pokemonData = await Promise.all(
       data.map(async (pokemon) => {
         let pokemonRecord = await getPokemonData(pokemon.url);
@@ -112,8 +88,8 @@ const Pokemon = () =>{
     setPokemons(_pokemonData);
   };
 
-  //next 20 Pokemon
-  const nextPoke = async () => {
+
+  const nextPoke = async () => {  // als er op volgende geklikt wordt alle informatie voor volgende actie klaarzetten
     setLoading(true);
     let data = await getPokemon(nextUrl);
     await loadingPokemon(data.results);
@@ -122,8 +98,7 @@ const Pokemon = () =>{
     setLoading(false);
   };
 
-  // previous 20 Pokemon
-  const prevPoke = async () => {
+  const prevPoke = async () => {// als er op vorige geklikt wordt alle informatie voor volgende actie klaarzetten
     if (!prevUrl) return;
     setLoading(true);
     let data = await getPokemon(prevUrl);
@@ -133,64 +108,56 @@ const Pokemon = () =>{
     setLoading(false);
   };
 
-return (
-  <>
-    <header>
-      <p>Pokédex</p>
-    </header>
-    {loading ? (
-      <h1 style={{ textAlign: "center", fontSize: "2rem" }}>Loading...</h1>
-    ) : (
-      <div className="container">
-        <div className="btn-container">
+  return (
+    <>
+      <header>
+        <p>Pokédex</p>
+      </header>
+      {loading ? (
+        <h1 style={{ textAlign: "center", fontSize: "2rem" }}>Loading...</h1>
+      ) : (
+        <div className="container">
+          <div className="btn-container">
+            <button className="btn" onClick={prevPoke}>
+              prev
+            </button>
+            <button className="btn" onClick={nextPoke}>
+              next
+            </button>
+          </div>
+
+          <div className="form_container">
+            <form action="submit" onSubmit={handleSubmit}>
+              <input
+                className="form"
+                type="text"
+                name="form"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type ID or Name of Pokémon..."
+              />
+            </form>
+          </div>
+
+          <div className="Pokemon-Container">
+            {pokemons.map((poke) => {
+              return (
+                <>
+                  <SinglePokemon key={poke.id} pokemon={poke} />
+                </>
+              );
+            })}
+          </div>
           <button className="btn" onClick={prevPoke}>
-            prev
-          </button>
-          <button className="btn" onClick={nextPoke}>
-            next
-          </button>
-        </div>
-
-        {/* FORM Beginn hier */}
-        <div className="form_container">
-          <form action="submit" onSubmit={handleSubmit}>
-            <input
-              className="form"
-              type="text"
-              name="form"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type ID or Name of Pokémon..."
-            />
-          </form>
-        </div>
-        {/* FORM Ende hier */}
-
-
-        <div className="Pokemon-Container">
-          {pokemons.map((poke) => {
-            return (
-              <>
-                <SinglePokemon
-                  key={poke.id}
-                  pokemon={poke}
-                />
-              </>
-            );
-          })}
-        </div>
-        {/* <button className="btn" onClick={prevPoke}>
           prev
         </button>
         <button className="btn" onClick={nextPoke}>
           next
-        </button> */}
-      </div>
-    )}
-  </>
-);
-}
-
-
+        </button>
+        </div>
+      )}
+    </>
+  );
+};
 
 export default Pokemon;
