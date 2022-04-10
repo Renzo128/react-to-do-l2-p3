@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
-import SinglePokemon from "../SinglePokemon/SinglePokemon";
+import SinglePokemon from "../OnePokemon/OnePokemon";
 import { getPokemon, getPokemonData } from "../functies/pokemons";
+import "./Pokemon.css";
+import Search from "../Search/Search";
+import { Link } from "react-router-dom";
+
 const initialUrl = "https://pokeapi.co/api/v2/pokemon";
 
 const Pokemon = () => {
@@ -8,64 +12,12 @@ const Pokemon = () => {
   const [nextUrl, setNextUrl] = useState("");
   const [prevUrl, setPrevUrl] = useState("");
   const [loading, setLoading] = useState(true);
-  const [singlePoke, setSinglePoke] = useState([]);
-  const [singlePokeSpecies, setSinglePokeSpecies] = useState([]);
-  const [singlePokeEvoChain, setSinglePokeEvoChain] = useState([]);
-  const [input, setInput] = useState("");
+  // const [singlePoke, setSinglePoke] = useState([]);
+  // const [singlePokeSpecies, setSinglePokeSpecies] = useState([]);
+  // const [singlePokeEvoChain, setSinglePokeEvoChain] = useState([]);
 
-  let tempId = "";
-
-
-  const fetchSinglePoke = async (value) => {  // data van pokemon ophalen die gezocht wordt in zoek balk
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${value}`);
-    const data = await response.json();
-    console.log(data)
-
-    setSinglePoke(data);
-
-    return data;
-  };
-
-  const fetchSpecieData = async (value) => {  //haal meer informatie op over dezelfde pokemon van fetchSinglePoke
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon-species/${value}`
-    );
-    const data = await response.json();
-    console.log(data)
-
-    setSinglePokeSpecies(data);
-
-    return data;
-  };
-
-  const fetchEvoData = async (url) => { // haal evaluatie informatie op van gezochte pokemon
-    const response = await fetch(url);
-    const data = await response.json();
-    setSinglePokeEvoChain(data);
-    return data;
-  };
-
-  const handleSubmit = async (e) => { // het opzoek verzoek ophalen en informatie ervoor opzoeken
-    e.preventDefault();
-    if (!input) return;
-
-    if (input) {
-      setInput(input.toLowerCase());
-      const [singlePoke, specieData] = await Promise.all([
-        fetchSinglePoke(input),
-        fetchSpecieData(input),
-      ]);
-      const [singlePokeEvoChain] = await Promise.all([
-        fetchEvoData(specieData.evolution_chain.url),
-      ]);
-
-      setInput("");
-      e.target.reset();
-    }
-  };
-
-
-  useEffect(() => { // op pagina inladen de link voor volgende en vorige klaar zetten
+  useEffect(() => {
+    // op pagina inladen de link voor volgende en vorige klaar zetten
     async function fetchData() {
       let response = await getPokemon(initialUrl);
       setNextUrl(response.next);
@@ -77,7 +29,8 @@ const Pokemon = () => {
     fetchData();
   }, []);
 
-  const loadingPokemon = async (data) => {  // alle pokemon data ophalen
+  const loadingPokemon = async (data) => {
+    // alle pokemon data ophalen
     let _pokemonData = await Promise.all(
       data.map(async (pokemon) => {
         let pokemonRecord = await getPokemonData(pokemon.url);
@@ -88,8 +41,8 @@ const Pokemon = () => {
     setPokemons(_pokemonData);
   };
 
-
-  const nextPoke = async () => {  // als er op volgende geklikt wordt alle informatie voor volgende actie klaarzetten
+  const nextPoke = async () => {
+    // volgende set pokemon inladen
     setLoading(true);
     let data = await getPokemon(nextUrl);
     await loadingPokemon(data.results);
@@ -98,7 +51,8 @@ const Pokemon = () => {
     setLoading(false);
   };
 
-  const prevPoke = async () => {// als er op vorige geklikt wordt alle informatie voor volgende actie klaarzetten
+  const prevPoke = async () => {
+    // vorige set pokemon inladen
     if (!prevUrl) return;
     setLoading(true);
     let data = await getPokemon(prevUrl);
@@ -111,23 +65,25 @@ const Pokemon = () => {
   return (
     <>
       <header>
-        <p>Pokédex</p>
+        <h1>Pokédex</h1>
       </header>
+      <div></div>
       {loading ? (
         <h1 style={{ textAlign: "center", fontSize: "2rem" }}>Loading...</h1>
       ) : (
         <div className="container">
-          <div className="btn-container">
-            <button className="btn" onClick={prevPoke}>
+          <Link to="PokePage">Pokemon</Link>
+
+          <div className="button">
+            <button className="button-style-left" onClick={prevPoke}>
               prev
             </button>
-            <button className="btn" onClick={nextPoke}>
+            <button className="button-style-right" onClick={nextPoke}>
               next
             </button>
           </div>
 
-          <div className="form_container">
-            <form action="submit" onSubmit={handleSubmit}>
+          {/* <form action="submit" onSubmit={handleSubmit}>
               <input
                 className="form"
                 type="text"
@@ -136,10 +92,11 @@ const Pokemon = () => {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type ID or Name of Pokémon..."
               />
-            </form>
-          </div>
+            </form> */}
 
-          <div className="Pokemon-Container">
+          <Search />
+
+          <div className="Container">
             {pokemons.map((poke) => {
               return (
                 <>
@@ -148,12 +105,14 @@ const Pokemon = () => {
               );
             })}
           </div>
-          <button className="btn" onClick={prevPoke}>
-          prev
-        </button>
-        <button className="btn" onClick={nextPoke}>
-          next
-        </button>
+          <div className="button">
+            <button className="button-style-left" onClick={prevPoke}>
+              prev
+            </button>
+            <button className="button-style-right" onClick={nextPoke}>
+              next
+            </button>
+          </div>
         </div>
       )}
     </>
