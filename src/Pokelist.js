@@ -1,26 +1,12 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import SinglePokemon from "./SinglePokemon";
-// import "./Styles/Pokelist.css";
-import { getPokemon, getPokemonData } from "./util/pokemons";
+import "./Styles/Pokelist.css";
+import { getPokemon, getPokemonData } from "./util/pokemon";
+/* import SearchForm from "./SearchForm"; */
 
-// const Pokemon = ({pokemon}) =>{
-//     console.log(pokemon)
-//   const [pokemonImage, setPokemonImage] = useState([]);
+const initialUrl = "https://pokeapi.co/api/v2/pokemon";
 
-
-
-//     return (
-//     <div>
-//         {pokemon.map((p) =>
-//         <div key={p.url}>{p.name}</div>)}
-//     </div>
-// )
-// }
-// //asdf
-// export default Pokemon;
-
-const Pokemon = () =>{
+const Pokelist = () => {
   const [pokemons, setPokemons] = useState([]);
   const [nextUrl, setNextUrl] = useState("");
   const [prevUrl, setPrevUrl] = useState("");
@@ -132,64 +118,64 @@ const Pokemon = () =>{
     setLoading(false);
   };
 
-return (
-  <>
-    <header>
-      <p>Pokédex</p>
-    </header>
-    {loading ? (
-      <h1 style={{ textAlign: "center", fontSize: "2rem" }}>Loading...</h1>
-    ) : (
-      <div className="container">
-        <div className="btn-container">
-          <button className="btn" onClick={prevPoke}>
+
+
+  return (
+    <>
+      <header>
+        <p>Pokédex</p>
+      </header>
+      {loading ? (
+        <h1 style={{ textAlign: "center", fontSize: "2rem" }}>Loading...</h1>
+      ) : (
+        <div className="container">
+          <div className="btn-container">
+            <button className="btn" onClick={prevPoke}>
+              prev
+            </button>
+            <button className="btn" onClick={nextPoke}>
+              next
+            </button>
+          </div>
+
+          {/* FORM Beginn hier */}
+          <div className="form_container">
+            <form action="submit" onSubmit={handleSubmit}>
+              <input
+                className="form"
+                type="text"
+                name="form"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type ID or Name of Pokémon..."
+              />
+            </form>
+          </div>
+          {/* FORM Ende hier */}
+
+
+          <div className="Pokemon-Container">
+            {pokemons.map((poke) => {
+              return (
+                <>
+                  <SinglePokemon
+                    key={poke.id}
+                    pokemon={poke}
+                  />
+                </>
+              );
+            })}
+          </div>
+          {/* <button className="btn" onClick={prevPoke}>
             prev
           </button>
           <button className="btn" onClick={nextPoke}>
             next
-          </button>
+          </button> */}
         </div>
-
-        {/* FORM Beginn hier */}
-        <div className="form_container">
-          <form action="submit" onSubmit={handleSubmit}>
-            <input
-              className="form"
-              type="text"
-              name="form"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type ID or Name of Pokémon..."
-            />
-          </form>
-        </div>
-        {/* FORM Ende hier */}
-
-
-        <div className="Pokemon-Container">
-          {pokemons.map((poke) => {
-            return (
-              <>
-                <SinglePokemon
-                  key={poke.id}
-                  pokemon={poke}
-                />
-              </>
-            );
-          })}
-        </div>
-        {/* <button className="btn" onClick={prevPoke}>
-          prev
-        </button>
-        <button className="btn" onClick={nextPoke}>
-          next
-        </button> */}
-      </div>
-    )}
-  </>
-);
+      )}
+    </>
+  );
 }
 
-
-
-export default Pokemon;
+export default Pokelist;
