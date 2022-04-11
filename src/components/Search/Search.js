@@ -32,14 +32,14 @@ const Search = () => {
       </form>
 
       {Object.keys(pokemonData).length
-        ? pokemonData.response.moves.map((moves) => console.log(moves.move))
+        ? pokemonData.response.moves.map((moves) => <div key={moves.move.name}>{moves.move.name}</div>)
         : ""}
 
       {Object.keys(pokemonData).length
         ? pokemonData.response.abilities[0].ability.name
         : ""}
       {Object.keys(pokemonData).length ? (
-        <img src={pokemonData.response.sprites.back_default}></img>
+        <img src={pokemonData.response.sprites.front_default}></img>
       ) : (
         ""
       )}
