@@ -12,9 +12,6 @@ const Pokemon = () => {
   const [nextUrl, setNextUrl] = useState("");
   const [prevUrl, setPrevUrl] = useState("");
   const [loading, setLoading] = useState(true);
-  // const [singlePoke, setSinglePoke] = useState([]);
-  // const [singlePokeSpecies, setSinglePokeSpecies] = useState([]);
-  // const [singlePokeEvoChain, setSinglePokeEvoChain] = useState([]);
 
   useEffect(() => {
     // op pagina inladen de link voor volgende en vorige klaar zetten
@@ -76,25 +73,13 @@ const Pokemon = () => {
 
           <div className="button">
             <button className="button-style-left" onClick={prevPoke}>
-              prev
+              Vorige
             </button>
             <button className="button-style-right" onClick={nextPoke}>
-              next
+              Volgende
             </button>
           </div>
 
-          {/* <form action="submit" onSubmit={handleSubmit}>
-              <input
-                className="form"
-                type="text"
-                name="form"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Type ID or Name of Pokémon..."
-              />
-            </form> */}
-
-          <Search />
 
           <div className="Container">
             {pokemons.map((poke) => {
@@ -107,10 +92,10 @@ const Pokemon = () => {
           </div>
           <div className="button">
             <button className="button-style-left" onClick={prevPoke}>
-              prev
+            Vorige
             </button>
             <button className="button-style-right" onClick={nextPoke}>
-              next
+              Volgende
             </button>
           </div>
         </div>
