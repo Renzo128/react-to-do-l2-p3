@@ -177,7 +177,9 @@ const Search = () => {
               {Object.keys(pokemonData).length
                 ? pokemonData.response.moves.map((moves) => (
                     <div className="center border" key={moves.move.name}>
+                      <b>
                       {moves.move.name}
+                      </b>
                     </div>
                   ))
                 : ""}
