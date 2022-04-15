@@ -1,15 +1,11 @@
 import React from "react";
 import "./OnePokemon.css";
 
-function SinglePokemon({ pokemon }) { // display voor iedere pokemon card
+function SinglePokemon({ pokemon }) {
+  // display voor iedere pokemon card
   return (
     <>
-      <div
-        key={pokemon.id}
-        className="pokecard"
-
-      >
-        
+      <div key={pokemon.id} className="pokecard">
         <img
           data-id={pokemon.id}
           src={pokemon.sprites.other["official-artwork"].front_default}
@@ -23,4 +19,3 @@ function SinglePokemon({ pokemon }) { // display voor iedere pokemon card
 }
 
 export default SinglePokemon;
-

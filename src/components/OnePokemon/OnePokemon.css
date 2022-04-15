@@ -1,13 +1,10 @@
-.Container{
-    display:grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
-.pokecard{
-    text-align: center;
-    height:400px;
+.pokecard {
+  /* card grootte en tekst plaatsing in de card */
+  text-align: center;
+  height: 400px;
 }
 
 .pokecard img {
-    height: 40%;
-  }
+  /* afbeeldings grootte aanpassen */
+  height: 40%;
+}

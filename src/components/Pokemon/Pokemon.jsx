@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SinglePokemon from "../OnePokemon/OnePokemon";
-import { getPokemon, getPokemonData } from "../functies/pokemons";
 import "./Pokemon.css";
-import Search from "../Search/Search";
 import { Link } from "react-router-dom";
 
 const initialUrl = "https://pokeapi.co/api/v2/pokemon";
@@ -16,7 +14,7 @@ const Pokemon = () => {
   useEffect(() => {
     // op pagina inladen de link voor volgende en vorige klaar zetten
     async function fetchData() {
-      let response = await getPokemon(initialUrl);
+      let response = await getPokemonData(initialUrl);
       setNextUrl(response.next);
       setPrevUrl(response.previous);
       await loadingPokemon(response.results);
@@ -25,6 +23,17 @@ const Pokemon = () => {
 
     fetchData();
   }, []);
+
+  const getPokemonData = async (url) => {
+    // haal data op van api
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+          resolve(data);
+        });
+    });
+  };
 
   const loadingPokemon = async (data) => {
     // alle pokemon data ophalen
@@ -41,7 +50,7 @@ const Pokemon = () => {
   const nextPoke = async () => {
     // volgende set pokemon inladen
     setLoading(true);
-    let data = await getPokemon(nextUrl);
+    let data = await getPokemonData(nextUrl);
     await loadingPokemon(data.results);
     setNextUrl(data.next);
     setPrevUrl(data.previous);
@@ -52,7 +61,7 @@ const Pokemon = () => {
     // vorige set pokemon inladen
     if (!prevUrl) return;
     setLoading(true);
-    let data = await getPokemon(prevUrl);
+    let data = await getPokemonData(prevUrl);
     await loadingPokemon(data.results);
     setNextUrl(data.next);
     setPrevUrl(data.previous);
@@ -69,17 +78,22 @@ const Pokemon = () => {
         <h1 style={{ textAlign: "center", fontSize: "2rem" }}>Loading...</h1>
       ) : (
         <div className="container">
-          <Link to="PokePage">Pokemon</Link>
+          <button className="moveButton">
+            <Link to="PokePage">Pokemon</Link>
+          </button>
 
           <div className="button">
-            <button className="button-style-left" onClick={prevPoke}>
-              Vorige
-            </button>
-            <button className="button-style-right" onClick={nextPoke}>
-              Volgende
-            </button>
+            {prevUrl ? (
+              <button className="button-style-left" onClick={prevPoke}>
+                Vorige
+              </button>
+            ) : null}
+            {nextUrl ? (
+              <button className="button-style-right" onClick={nextPoke}>
+                Volgende
+              </button>
+            ) : null}
           </div>
-
 
           <div className="Container">
             {pokemons.map((poke) => {
@@ -91,12 +105,16 @@ const Pokemon = () => {
             })}
           </div>
           <div className="button">
-            <button className="button-style-left" onClick={prevPoke}>
-            Vorige
-            </button>
-            <button className="button-style-right" onClick={nextPoke}>
-              Volgende
-            </button>
+            {prevUrl ? (
+              <button className="button-style-left" onClick={prevPoke}>
+                Vorige
+              </button>
+            ) : null}
+            {nextUrl ? (
+              <button className="button-style-right" onClick={nextPoke}>
+                Volgende
+              </button>
+            ) : null}
           </div>
         </div>
       )}

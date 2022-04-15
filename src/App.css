@@ -13,12 +13,6 @@
   }
 }
 
-/* var item = Math.random()*255;  delete
-// var item2 = Math.random()*255;
-// var item3 = Math.random()*255;
-
-// document.body.style.backgroundColor  = "rgb("+item+","+item2+","+item3+")";
-*/
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
