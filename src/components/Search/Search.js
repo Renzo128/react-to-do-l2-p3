@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import "./Search.css";
 
@@ -31,6 +32,9 @@ const Search = () => {
     <div className="form_container containerSearchPage">
       <div></div>
       <div>
+      <button className="moveButtonPokedex">
+        <Link to="/" style={{ textDecoration: 'none', color: 'black' }}>Pokedéx</Link>
+      </button>
         <form
           action="submit"
           onSubmit={submitSearch}

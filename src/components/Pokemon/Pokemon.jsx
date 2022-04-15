@@ -79,7 +79,7 @@ const Pokemon = () => {
       ) : (
         <div className="container">
           <button className="moveButton">
-            <Link to="PokePage">Pokemon</Link>
+            <Link to="PokePage" style={{ textDecoration: 'none', color: 'black' }}>Pokemon</Link>
           </button>
 
           <div className="button">

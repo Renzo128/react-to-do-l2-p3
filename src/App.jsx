@@ -2,14 +2,14 @@ import "./App.css";
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Pokemon from "./components/Pokemon/Pokemon";
-import PokePage from "./components/PokePage/PokePage";
+import Search from "./components/Search/Search";
 const App = () => {
   return (
     <>
       <div>
         {
           <Routes>
-            <Route path="PokePage" element={<PokePage />}></Route>
+            <Route path="PokePage" element={<Search />}></Route>
             <Route path="/" element={<Pokemon />}></Route>
           </Routes>
         }
