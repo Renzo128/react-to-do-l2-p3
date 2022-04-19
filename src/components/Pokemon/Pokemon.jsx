@@ -9,7 +9,6 @@ const Pokemon = () => {
   const [pokemons, setPokemons] = useState([]);
   const [nextUrl, setNextUrl] = useState("");
   const [prevUrl, setPrevUrl] = useState("");
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // op pagina inladen de link voor volgende en vorige klaar zetten
@@ -18,7 +17,6 @@ const Pokemon = () => {
       setNextUrl(response.next);
       setPrevUrl(response.previous);
       await loadingPokemon(response.results);
-      setLoading(false);
     }
 
     fetchData();
@@ -49,23 +47,19 @@ const Pokemon = () => {
 
   const nextPoke = async () => {
     // volgende set pokemon inladen
-    setLoading(true);
     let data = await getPokemonData(nextUrl);
     await loadingPokemon(data.results);
     setNextUrl(data.next);
     setPrevUrl(data.previous);
-    setLoading(false);
   };
 
   const prevPoke = async () => {
     // vorige set pokemon inladen
     if (!prevUrl) return;
-    setLoading(true);
     let data = await getPokemonData(prevUrl);
     await loadingPokemon(data.results);
     setNextUrl(data.next);
     setPrevUrl(data.previous);
-    setLoading(false);
   };
 
   return (
@@ -74,9 +68,7 @@ const Pokemon = () => {
         <h1>Pokédex</h1>
       </header>
       <div></div>
-      {loading ? (
-        <h1 style={{ textAlign: "center", fontSize: "2rem" }}>Loading...</h1>
-      ) : (
+      { (
         <div className="container">
           <button className="moveButton">
             <Link to="PokePage" style={{ textDecoration: 'none', color: 'black' }}>Pokemon</Link>
