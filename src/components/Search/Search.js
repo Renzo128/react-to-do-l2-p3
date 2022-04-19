@@ -29,6 +29,10 @@ const Search = () => {
   };
 
   return (
+    <div>
+          <header>
+        <h1>Pokédex</h1>
+      </header>
     <div className="form_container containerSearchPage">
       <div></div>
       <div>
@@ -187,6 +191,7 @@ const Search = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
