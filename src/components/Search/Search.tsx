@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import "./Search.css";
 
 interface props{
-  response: any | null;
+  name : string;
 }
 const Search: React.FC<props> = () => {
 
   const [input, setInput] = useState("");
-  const [pokemonData, setPokemonData] = useState<any[]>([]);
+  const [pokemonData, setPokemonData] = useState<props[] | any>([]);
 
-  const submitSearch = async (e) => {
+  const submitSearch = async (e : React.ChangeEvent<any>) => {
     e.preventDefault();
     let response = await getPokemonData(
       `https://pokeapi.co/api/v2/pokemon/${input.toLowerCase()}`
@@ -20,7 +20,7 @@ const Search: React.FC<props> = () => {
     });
   };
 
-  const getPokemonData = async (url) => {
+  const getPokemonData = async (url: any) => {
     // haal data op van api
     return new Promise((resolve, reject) => {
       fetch(url)
@@ -131,7 +131,7 @@ const Search: React.FC<props> = () => {
                   {" "}
                   {pokemonData.response.abilities &&
                     pokemonData.response.abilities
-                      .map((abilityObject) => abilityObject.ability.name)
+                      .map((abilityObject : any) => abilityObject.ability.name)
                       .join("\n")}
                 </h4>
               </div>
@@ -182,7 +182,7 @@ const Search: React.FC<props> = () => {
 
             <div className="grid movedown ">
               {Object.keys(pokemonData).length
-                ? pokemonData.response.moves.map((moves) => (
+                ? pokemonData.response.moves.map((moves : any) => (
                     <div className="center border" key={moves.move.name}>
                       <b>
                       {moves.move.name}
