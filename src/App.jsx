@@ -2,7 +2,7 @@ import "./App.css";
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Pokemon from "./components/Pokemon/Pokemon";
-import Search from "./components/Search/Search";
+import Search from "./components/Search/Search.tsx";
 const App = () => {
   return (
     <>

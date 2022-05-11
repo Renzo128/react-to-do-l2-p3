@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
 import "./Search.css";
 
-const Search = () => {
+interface props{
+  response: any | null;
+}
+const Search: React.FC<props> = () => {
+
   const [input, setInput] = useState("");
-  const [pokemonData, setPokemonData] = useState([]);
+  const [pokemonData, setPokemonData] = useState<any[]>([]);
 
   const submitSearch = async (e) => {
     e.preventDefault();
